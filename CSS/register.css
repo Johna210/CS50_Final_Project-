@@ -1,0 +1,72 @@
+
+body{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+
+/* Main Registration Form */
+.register-form{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 410px;
+    height: 450px;
+    /* border: 2px solid; */
+    padding-left: 15px;
+    border-radius: 5px;
+    background-color: #fff;
+}
+
+
+
+/* Components of the form */
+
+/* Title */
+.title {
+    align-self: center;
+    color: #DC3545;
+    margin-top: 10px;
+}
+
+.title::after {
+    content: '';
+    width: 40px;
+    height: 4px;
+    border-radius: 3px;
+    background-color: #DC3545;
+    position: absolute;
+    top: 25%;
+    left: 50%;
+    transform: translateX(-50%);
+}
+/* For the first and last name */
+.names{
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+}
+
+.input-field {
+    width: 60%;
+}
+
+.last{
+    margin-bottom: 10px;
+}
+
+/* Button */
+
+
+button {
+    width: 40%;
+    align-self: center;
+}
+
