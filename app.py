@@ -22,12 +22,29 @@ db = SQL("sqlite:///db/recipes.db")
 @app.route("/")
 @login_required
 def index():
+
+    # get the current user logged in
+    user_id = session["user_id"]
     return render_template("index.html")
 
 
 @app.route("/login", methods=["Get","Post"])
 def login():
     session.clear()
+    return render_template("login.html")
 
-    if request.method == "GET":
-        return render_template("login.html")
+
+@app.route("/register", methods=["GET","POST"])
+def register():
+    """Register new user."""
+
+    if request.method == "POST":
+        #Get user information and save them into variables.
+        first_name = request.form.get("firstname")
+        last_name = request.form.get("lastname")
+        emil = request.form.get("email")
+        user_name = request.form.get("username")
+        password = request.form.get("password")
+        confirmation = request.form.get("confirmation")
+
+    return render_template("register.html")
