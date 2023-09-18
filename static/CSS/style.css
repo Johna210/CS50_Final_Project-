@@ -1,0 +1,59 @@
+body {
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+}
+
+/* Heading */
+.heading {
+    display: flex;
+    background-color: #dc3545;
+    padding: 0 7px;
+    justify-content: space-between;
+    align-items: center;
+    color: #fff;
+}
+
+.links {
+    display: flex;
+    gap: 20px;
+}
+
+ul {
+    list-style: none;
+}
+
+.link{
+    text-decoration: none;
+    color: #fff;
+}
+
+/* Index */
+.container {
+    text-align: center;
+}
+
+.title {
+    font-size: larger;
+}
+
+.recipes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    align-items: center;
+}
+
+.recipe {
+    width: 350px;
+    height: 300px;
+    border: #dc3545 solid;
+}
+
+.images {
+    border: 2px solid black;
+    height: 200px;
+}
+
+
+/* DC3545 */

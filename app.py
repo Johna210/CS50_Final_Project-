@@ -15,4 +15,8 @@ app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
 
 # Configure CS50 library to use SQLite database
-db = SQL("sqlite:///finance.db")
+db = SQL("sqlite:///db/recipes.db")
+
+@app.route("/")
+def index():
+    return render_template("index.html")
