@@ -27,17 +27,6 @@ body {
   margin-top: 10px;
 }
 
-.title::after {
-  content: "";
-  width: 40px;
-  height: 4px;
-  border-radius: 3px;
-  background-color: #dc3545;
-  position: absolute;
-  top: 31%;
-  left: 50%;
-  transform: translateX(-50%);
-}
 /* For the first and last name */
 .names {
   display: flex;
@@ -65,16 +54,6 @@ button {
   align-self: center;
 }
 
-@media (max-height: 800px) {
-  .title::after {
-    content: "";
-    width: 40px;
-    height: 4px;
-    border-radius: 3px;
-    background-color: #dc3545;
-    position: absolute;
-    top: 25%;
-    left: 50%;
-    transform: translateX(-50%);
-  }
+.errors {
+  color: red;
 }
