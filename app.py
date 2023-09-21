@@ -14,7 +14,7 @@ from wtforms.validators import DataRequired, Length, Email, Regexp, EqualTo
 from wtforms import ValidationError
 from flask_wtf.csrf import CSRFProtect
 
-from helpers import login_required
+from helpers import login_required, RegistrationForm
 
 app = Flask(__name__)
 SECRET_KEY = 'safddsgayfdsgfhjgs'
@@ -32,6 +32,15 @@ Session(app)
 db = SQL("sqlite:///db/recipes.db")
 
 
+@app.after_request
+def after_request(response):
+    """Ensure responses aren't cached"""
+    response.headers["Cache-Control"] = "no-cache, no-store, must-revalidate"
+    response.headers["Expires"] = 0
+    response.headers["Pragma"] = "no-cache"
+    return response
+
+
 @app.route("/")
 @login_required
 def index():
@@ -43,28 +52,39 @@ def index():
 
 @app.route("/login", methods=["Get", "Post"])
 def login():
+
     session.clear()
-    return render_template("login.html")
 
+    errors = []
+    if request.method == "POST":
+        # Take email from the form
+        email = request.form.get("email")
+        # Query the reuslts of the user from the database
+        row = db.execute("SELECT * FROM users WHERE email = ?", email
+                         )
 
-class RegistrationForm(FlaskForm):
-    """A class to create a registration for that is easier to 
-    validate and save on database."""
-    email = StringField('Email', validators=[DataRequired(message="Email is required."),
-                                             Length(1, 64), Email()])
-    username = StringField('Username', validators=[DataRequired(
-        message="Username is required."), Length(1, 64)])
-    firstname = StringField('Firstname', validators=[DataRequired(
-        message="Please enter the first name."), Length(1, 64)])
-    lastname = StringField('Lastname', validators=[DataRequired(
-        message="Please enter yout last name."), Length(1, 64)])
+        if len(row) > 0 and row[0]["email"] == email:
 
-    password = PasswordField('Password', validators=[DataRequired(message="Fill the password."), Length(1, 64),
-                                                     EqualTo('confirmation', message='Passwords must match.')])
-    confirmation = PasswordField('confirmation', validators=[
-        DataRequired(message="Confirm your password."), Length(1, 64)])
+            # First check if the password entered by the user is correct
+            password = request.form.get("password")
+            print(password)
+            if check_password_hash(row[0]["password"], password):
+                # Remember which user has logged in
+                session["user_id"] = row[0]["id"]
+                return redirect("/")
 
-    submit = SubmitField('Register')
+            # if the password entered is not correct
+            else:
+                errors.append("Incorrect password entered!")
+                return render_template("login.html", errors=errors)
+
+        else:
+            errors.append("Account doesn't exist")
+            return render_template("login.html", errors=errors)
+
+    else:
+        print(22222222222222222222)
+        return render_template("login.html")
 
 
 @app.route("/register", methods=["GET", "POST"])
@@ -119,3 +139,7 @@ def register():
     #             print(field.name, ':', field.errors)
 
     return render_template("register.html", form=form, errors=errors)
+
+
+if __name__ == '__main__':
+    app.run()
