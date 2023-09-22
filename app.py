@@ -14,7 +14,7 @@ from wtforms.validators import DataRequired, Length, Email, Regexp, EqualTo
 from wtforms import ValidationError
 from flask_wtf.csrf import CSRFProtect
 
-from helpers import login_required, RegistrationForm
+from helpers import login_required, RegistrationForm, generate
 
 app = Flask(__name__)
 SECRET_KEY = 'safddsgayfdsgfhjgs'
@@ -41,13 +41,21 @@ def after_request(response):
     return response
 
 
+meals = []
+for i in range(6):
+    meals.append(generate())
+
+
 @app.route("/")
 @login_required
 def index():
 
     # get the current user logged in
     user_id = session["user_id"]
-    return render_template("index.html")
+
+    # Get six recipes for the homepage
+
+    return render_template("index.html", meals=meals)
 
 
 @app.route("/login", methods=["Get", "Post"])
@@ -84,6 +92,7 @@ def login():
 
     else:
         print(22222222222222222222)
+        print(generate())
         return render_template("login.html")
 
 

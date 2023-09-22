@@ -3,7 +3,21 @@ main %}
 <div class="container">
   <h2 class="title">Todays recipe's</h2>
   <div class="recipes">
+    {% for meal in meals %}
+
     <div class="recipe">
+      <div class="images">
+        <img class ="images" src="{{ meal["img_source"] }}" alt="{{
+        meal["meal"]}}" />
+      </div>
+      <div class="description">
+        {{ meal["meal"] }} <br />
+        {{ meal["category"] }} <br />
+        {{ meal["origin"] }}
+      </div>
+    </div>
+    {% endfor %}
+    <!-- <div class="recipe">
       <div class="images"></div>
       <div class="description"></div>
     </div>
@@ -23,11 +37,9 @@ main %}
       <div class="images"></div>
       <div class="description"></div>
     </div>
-    <div class="recipe">
-      <div class="images"></div>
-      <div class="description"></div>
-    </div>
+  </div> -->
+    <!-- </div> -->
+
+    {% endblock %}
   </div>
 </div>
-
-{% endblock %}

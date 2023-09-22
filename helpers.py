@@ -1,8 +1,9 @@
 import os
 import requests
 import urllib.parse
+import json
 
-from flask import redirect, render_template, request, session
+from flask import redirect, render_template, request, session, jsonify
 from functools import wraps
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField
@@ -39,3 +40,57 @@ class RegistrationForm(FlaskForm):
         DataRequired(message="Confirm your password."), Length(1, 64)])
 
     submit = SubmitField('Register')
+
+
+def generate():
+    """Generate some random recipes from the mealdb api."""
+    url = "https://www.themealdb.com/api/json/v1/1/random.php"
+
+    # Contact api
+    response = requests.get(url)
+    # response.raise_for_status()
+    if response.status_code == 200:
+        body = response.content
+        # A Dictionaary holding every needed info on the meal
+        info = json.loads(body)
+
+        # A variable to save every ingredients with their measures
+        ingredients = {}
+        count = 1
+        ingredient = info["meals"][0]
+
+        # Loop through the json file until every igredient is found
+        for i in ingredient:
+            if i == f"strIngredient{count}":
+                # If it's null or epmpty there is no more ingredient
+                if ingredient[i] == None or ingredient[i] == "":
+                    break
+                else:
+                    ingredients[ingredient[i]
+                                ] = ingredient[f"strMeasure{count}"]
+                count += 1
+
+        final = {
+            "meal": ingredient["strMeal"],
+            "category": ingredient["strCategory"],
+            "origin": ingredient["strArea"],
+            "instructions": ingredient["strInstructions"],
+            "img_source": ingredient["strMealThumb"],
+            "tags": ingredient["strTags"],
+            "youtube": ingredient["strYoutube"],
+            "source": ingredient["strSource"],
+            "ingredients": ingredients
+        }
+
+        return final
+
+    else:
+        # Return an error message
+        return jsonify({'error': 'Failed to get data from MealDB API.'})
+
+    # # Parse response
+    # try:
+    #     full_recipe_info = response.json()
+
+
+generate()
