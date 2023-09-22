@@ -13,32 +13,12 @@ main %}
       <div class="description">
         {{ meal["meal"] }} <br />
         {{ meal["category"] }} <br />
-        {{ meal["origin"] }}
+        {{ meal["origin"] }} <br>
+        <a href="{{ meal["youtube"] }}">Watch video</a>
       </div>
     </div>
     {% endfor %}
-    <!-- <div class="recipe">
-      <div class="images"></div>
-      <div class="description"></div>
-    </div>
-    <div class="recipe">
-      <div class="images"></div>
-      <div class="description"></div>
-    </div>
-    <div class="recipe">
-      <div class="images"></div>
-      <div class="description"></div>
-    </div>
-    <div class="recipe">
-      <div class="images"></div>
-      <div class="description"></div>
-    </div>
-    <div class="recipe">
-      <div class="images"></div>
-      <div class="description"></div>
-    </div>
-  </div> -->
-    <!-- </div> -->
+    
 
     {% endblock %}
   </div>

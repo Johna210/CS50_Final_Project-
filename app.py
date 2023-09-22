@@ -1,5 +1,6 @@
 import os
 import sqlite3
+import json
 
 from flask import Flask, render_template, url_for, redirect, request, session
 from cs50 import SQL
@@ -7,7 +8,7 @@ from flask_session import Session
 # from flask_sqlalchemy import SQLAlchemy
 from tempfile import mkdtemp
 from werkzeug.security import check_password_hash, generate_password_hash
-from datetime import datetime
+from datetime import date
 from flask_wtf import FlaskForm
 from wtforms import StringField, PasswordField, BooleanField, SubmitField
 from wtforms.validators import DataRequired, Length, Email, Regexp, EqualTo
@@ -41,11 +42,6 @@ def after_request(response):
     return response
 
 
-meals = []
-for i in range(6):
-    meals.append(generate())
-
-
 @app.route("/")
 @login_required
 def index():
@@ -53,7 +49,23 @@ def index():
     # get the current user logged in
     user_id = session["user_id"]
 
-    # Get six recipes for the homepage
+    # Fetch daily recipes from the database
+    today = date.today()
+
+    row = db.execute("SELECT * FROM daily_recipes WHERE date = ?", today)
+    if row:
+        # if on the same date take the recipes saved in the database and display.
+        recipes = row[0]["recipes"]
+        meals = json.loads(recipes)
+    else:
+        # Get six recipes for the homepage
+        meals = []
+        for i in range(6):
+            meals.append(generate())
+            meals_json = json.dumps(meals)
+
+        db.execute(
+            "INSERT INTO daily_recipes(date,recipes) VALUES(?,?)", today, meals_json)
 
     return render_template("index.html", meals=meals)
 
