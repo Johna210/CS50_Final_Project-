@@ -1,0 +1,50 @@
+
+{% extends "layout.html" %} {% block title %} Homepage {% endblock %} {% block
+main %}
+<div class="container-search">
+    <div class="search-page">
+    <div class="search-bar">
+        <div class="search-space">
+            <input type="text" class="search-input" placeholder="Search by ingredients, area, or category">
+        <button type="submit" class="search-button"><i class="fa-solid fa-magnifying-glass fa-xl" style="color: #dc3545;"></i></button>
+        </div>
+      
+        <div class="filters">
+          <select name="ingredients" class="filter-ingredients">
+            <option value="">All ingredients</option>
+            <option value="chicken">Chicken</option>
+            <option value="beef">Beef</option>
+            <option value="pork">Pork</option>
+            <option value="fish">Fish</option>
+            <option value="vegetarian">Vegetarian</option>
+            <option value="vegan">Vegan</option>
+          </select>
+      
+          <select name="area" class="filter-area">
+            <option value="">All areas</option>
+            <option value="American">American</option>
+            <option value="Mexican">Mexican</option>
+            <option value="Italian">Italian</option>
+            <option value="Chinese">Chinese</section>
+            <option value="Indian">Indian</option>
+            <option value="Japanese">Japanese</option>
+          </select>
+      
+          <select name="category" class="filter-category">
+            <option value="">All categories</option>
+            <option value="Main course">Main course</section>
+            <option value="Side dish">Side dish</option>
+            <option value="Dessert">Dessert</option>
+            <option value="Appetizer">Appetizer</section>
+            <option value="Drink">Drink</section>
+          </select>
+        </div>
+      
+      </div>
+      <div class="search-results">
+
+      </div>
+</div>
+</div>
+
+{% endblock %}

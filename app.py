@@ -166,8 +166,13 @@ def recipe():
     # get the meal id
     meal_id = request.args.get("id")
     meal = search_by_id(meal_id)
-    print(meal)
     return render_template("recipe.html", meal=meal)
+
+
+@app.route("/search")
+@login_required
+def search():
+    return render_template("search.html")
 
 
 if __name__ == '__main__':

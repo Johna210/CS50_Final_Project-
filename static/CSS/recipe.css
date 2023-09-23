@@ -53,3 +53,18 @@ ul {
 .instruction {
   padding: 10px;
 }
+@media screen and (max-width: 600px) {
+  .recipe-info {
+    width: 80%;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .recipe-image {
+    width: 90%;
+    height: 250px;
+    padding-top: 20px;
+    /* background-color: red; */
+  }
+}
