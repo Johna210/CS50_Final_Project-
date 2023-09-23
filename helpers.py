@@ -70,7 +70,9 @@ def generate():
                                 ] = ingredient[f"strMeasure{count}"]
                 count += 1
 
+        # return only the needed vlaues precisely for the website.
         final = {
+            "id": ingredient["idMeal"],
             "meal": ingredient["strMeal"],
             "category": ingredient["strCategory"],
             "origin": ingredient["strArea"],
@@ -88,9 +90,58 @@ def generate():
         # Return an error message
         return jsonify({'error': 'Failed to get data from MealDB API.'})
 
-    # # Parse response
-    # try:
-    #     full_recipe_info = response.json()
+
+def search_by_id(id):
+    # api link
+    url = f"https://www.themealdb.com/api/json/v1/1/lookup.php?i={id}"
+
+    # Contact api
+    response = requests.get(url)
+
+    # response.raise_for_status()
+    if response.status_code == 200:
+        body = response.content
+        # A Dictionaary holding every needed info on the meal
+        info = json.loads(body)
+
+        # A variable to save every ingredients with their measures
+        ingredients = {}
+        count = 1
+        ingredient = info["meals"][0]
+
+        # Loop through the json file until every igredient is found
+        for i in ingredient:
+            if i == f"strIngredient{count}":
+                # If it's null or epmpty there is no more ingredient
+                if ingredient[i] == None or ingredient[i] == "":
+                    break
+                else:
+                    ingredients[ingredient[i]
+                                ] = ingredient[f"strMeasure{count}"]
+                count += 1
+
+        # return only the needed
+        final = {
+            "id": ingredient["idMeal"],
+            "meal": ingredient["strMeal"],
+            "category": ingredient["strCategory"],
+            "origin": ingredient["strArea"],
+            "instructions": ingredient["strInstructions"],
+            "img_source": ingredient["strMealThumb"],
+            "tags": ingredient["strTags"],
+            "youtube": ingredient["strYoutube"],
+            "source": ingredient["strSource"],
+            "ingredients": ingredients
+        }
+
+        return final
+    else:
+        # Return an error message
+        return jsonify({'error': 'Failed to get data from MealDB API.'})
 
 
-generate()
+# meal = generate()
+# meal_id = meal["id"]
+
+# print(9999999999999999999999999)
+# print(search_by_id(meal_id))

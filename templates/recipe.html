@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Recipe</title>
+    <link rel="stylesheet" href="/static/CSS/recipe.css" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="header" method="get">
+      <!-- {% if session["user_id"] %} -->
+      <div class="heading">
+        <h3 class="logo">recipes</h3>
+        <ul class="links">
+          <li><a class="link" href="/">Home</a></li>
+          <li><a class="link" href="#">Search</a></li>
+          <li><a class="link" href="#">Favourites</a></li>
+        </ul>
+      </div>
+      <!-- {% else %} -->
+      <!-- <a href="/login"></a>
+      {% endif %} {% block main %}{% endblock %} -->
+    </div>
+    <form action="/recipe">
+      <div class="container">
+        <div class="recipe-info">
+          <img class="recipe-image" src="{{ meal["img_source"] }}" alt="{{
+          meal["meal"]}}">
+          <div class="recipe-title">{{ meal["meal"] }}</div>
+
+          <!-- Ingredients -->
+          <h3>Ingredients</h3>
+          <ul>
+            {% for ingredient,amount in meal["ingredients"].items() %}
+            <li>{{ ingredient }} : {{ amount }}</li>
+            {% endfor %}
+          </ul>
+
+          <!-- Instructions -->
+          <h3>instructions</h3>
+          <p class="instruction">{{ meal["instructions"] }}</p>
+
+          <!-- Video -->
+          <a href="{{ meal["youtube"]}}">Youtube video</a>
+        </div>
+      </div>
+    </form>
+  </body>
+</html>

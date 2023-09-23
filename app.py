@@ -15,7 +15,7 @@ from wtforms.validators import DataRequired, Length, Email, Regexp, EqualTo
 from wtforms import ValidationError
 from flask_wtf.csrf import CSRFProtect
 
-from helpers import login_required, RegistrationForm, generate
+from helpers import login_required, RegistrationForm, generate, search_by_id
 
 app = Flask(__name__)
 SECRET_KEY = 'safddsgayfdsgfhjgs'
@@ -67,7 +67,7 @@ def index():
         db.execute(
             "INSERT INTO daily_recipes(date,recipes) VALUES(?,?)", today, meals_json)
 
-    return render_template("index.html", meals=meals)
+    return render_template("index.html", meals=meals, search_by_id=search_by_id)
 
 
 @app.route("/login", methods=["Get", "Post"])
@@ -103,8 +103,6 @@ def login():
             return render_template("login.html", errors=errors)
 
     else:
-        print(22222222222222222222)
-        print(generate())
         return render_template("login.html")
 
 
@@ -160,6 +158,16 @@ def register():
     #             print(field.name, ':', field.errors)
 
     return render_template("register.html", form=form, errors=errors)
+
+
+@app.route("/recipe")
+@login_required
+def recipe():
+    # get the meal id
+    meal_id = request.args.get("id")
+    meal = search_by_id(meal_id)
+    print(meal)
+    return render_template("recipe.html", meal=meal)
 
 
 if __name__ == '__main__':
