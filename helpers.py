@@ -140,8 +140,68 @@ def search_by_id(id):
         return jsonify({'error': 'Failed to get data from MealDB API.'})
 
 
-# meal = generate()
-# meal_id = meal["id"]
+def search_by_category(category):
+    """A function for searching categories."""
+    url = f"https://www.themealdb.com/api/json/v1/1/filter.php?c={category}"
 
-# print(9999999999999999999999999)
-# print(search_by_id(meal_id))
+    # Contact api
+    response = requests.get(url)
+
+    # response.raise_for_status()
+    if response.status_code == 200:
+        body = response.content
+        # A Dictionaary holding every needed info on the meal
+        info = json.loads(body)
+        meals = []
+
+        for meal in info["meals"]:
+            meals.append(meal["strMeal"])
+
+        return meals
+    else:
+        # Return an error message
+        return jsonify({'error': 'Failed to get data from MealDB API.'})
+
+
+def lists():
+    url = "https://www.themealdb.com/api/json/v1/1/list.php?c=list"
+
+    # Contact api
+    response = requests.get(url)
+
+    # response.raise_for_status()
+    if response.status_code == 200:
+        body = response.content
+        # A Dictionaary holding every needed info on the meal
+        info = json.loads(body)
+        categories = []
+
+        for category in info["meals"]:
+            categories.append(category["strCategory"])
+
+    else:
+        # Return an error message
+        return jsonify({'error': 'Failed to get data from MealDB API.'})
+
+
+def countries():
+    url = "https://www.themealdb.com/api/json/v1/1/list.php?a=list"
+
+    # Contact api
+    response = requests.get(url)
+
+    # response.raise_for_status()
+    if response.status_code == 200:
+        body = response.content
+        # A Dictionaary holding every needed info on the meal
+        info = json.loads(body)
+        countries = []
+
+        for country in info["meals"]:
+            countries.append(country["strArea"])
+
+        print(countries)
+
+    else:
+        # Return an error message
+        return jsonify({'error': 'Failed to get data from MealDB API.'})

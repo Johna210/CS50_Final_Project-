@@ -137,3 +137,33 @@ ul {
   background-color: red;
 }
 /* End of search page */
+
+/* Mobile */
+@media screen and (max-width: 600px) {
+  .search-input {
+    width: 80%;
+    padding: 0.5rem;
+    border-radius: 0.25rem;
+    background: transparent;
+    border: none;
+    outline: none;
+  }
+  .search-space {
+    background-color: #f8d7da;
+    display: flex;
+    justify-content: space-around;
+    width: 85%;
+    height: 40px;
+    padding: 5px;
+    border-radius: 20px;
+  }
+  .search-bar {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1rem;
+    gap: 10px;
+  }
+}

@@ -175,5 +175,11 @@ def search():
     return render_template("search.html")
 
 
+@app.route("/categories")
+@login_required
+def categories():
+    return render_template("categories.html")
+
+
 if __name__ == '__main__':
     app.run()

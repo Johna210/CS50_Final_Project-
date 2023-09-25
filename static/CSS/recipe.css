@@ -67,4 +67,7 @@ ul {
     padding-top: 20px;
     /* background-color: red; */
   }
+  .magnifying-glass {
+    size: 40%;
+  }
 }
