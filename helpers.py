@@ -155,7 +155,30 @@ def search_by_category(category):
         meals = []
 
         for meal in info["meals"]:
-            meals.append(meal["strMeal"])
+            meals.append(meal)
+
+        return meals
+    else:
+        # Return an error message
+        return jsonify({'error': 'Failed to get data from MealDB API.'})
+
+
+def search_by_origin(origin):
+    """A function for searching categories."""
+    url = f"https://www.themealdb.com/api/json/v1/1/filter.php?a={origin}"
+
+    # Contact api
+    response = requests.get(url)
+
+    # response.raise_for_status()
+    if response.status_code == 200:
+        body = response.content
+        # A Dictionaary holding every needed info on the meal
+        info = json.loads(body)
+        meals = []
+
+        for meal in info["meals"]:
+            meals.append(meal)
 
         return meals
     else:
@@ -179,6 +202,7 @@ def lists():
         for category in info["meals"]:
             categories.append(category["strCategory"])
 
+        return categories
     else:
         # Return an error message
         return jsonify({'error': 'Failed to get data from MealDB API.'})

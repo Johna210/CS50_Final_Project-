@@ -15,7 +15,7 @@ from wtforms.validators import DataRequired, Length, Email, Regexp, EqualTo
 from wtforms import ValidationError
 from flask_wtf.csrf import CSRFProtect
 
-from helpers import login_required, RegistrationForm, generate, search_by_id
+from helpers import login_required, RegistrationForm, generate, search_by_id, search_by_category, search_by_origin
 
 app = Flask(__name__)
 SECRET_KEY = 'safddsgayfdsgfhjgs'
@@ -169,10 +169,29 @@ def recipe():
     return render_template("recipe.html", meal=meal)
 
 
-@app.route("/search")
+@app.route("/search", methods=["GET", "POST"])
 @login_required
 def search():
-    return render_template("search.html")
+    categories = ['Beef', 'Breakfast', 'Chicken', 'Dessert', 'Goat', 'Lamb',
+                  'Miscellaneous', 'Pasta', 'Pork', 'Seafood', 'Side', 'Starter', 'Vegetarian', 'Vegan']
+    origins = ['American', 'British', 'Canadian', 'Chinese', 'Croatian', 'Dutch', 'Egyptian', 'Filipino', 'French', 'Greek', 'Indian', 'Irish', 'Italian', 'Jamaican',
+               'Japanese', 'Kenyan', 'Malaysian', 'Mexican', 'Moroccan', 'Polish', 'Portuguese', 'Russian', 'Spanish', 'Thai', 'Tunisian', 'Turkish', 'Unknown', 'Vietnamese']
+
+    meals = []
+
+    if request.method == "POST":
+        pass
+
+    category = request.args.get("category")
+    origin = request.args.get("origin")
+
+    if category:
+        meals = search_by_category(category)
+
+    elif origins:
+        meals = search_by_origin(origin)
+
+    return render_template("search.html", categories=categories, origins=origins, meals=meals)
 
 
 @app.route("/categories")
@@ -182,4 +201,4 @@ def categories():
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)
