@@ -17,9 +17,9 @@
       <div class="heading">
         <h3 class="logo">recipes</h3>
         <ul class="links">
-          <li><a class="link" href="/">Home</a></li>
-          <li><a class="link" href="#">Search</a></li>
-          <li><a class="link" href="#">Favourites</a></li>
+          <li><a class="link" href="/"><i class="fa-solid fa-house" style="color: #f7f8f8"></i>Home</a></li>
+          <li><a class="link" href="#"><i class="fa-solid fa-magnifying-glass" style="color: #ffffff"></i>Search</a></li>
+          <li><a class="link" href="#"><i class="fa-solid fa-bookmark" style="color: #fcfcfc"></i>Favourites</a></li>
         </ul>
       </div>
       <!-- {% else %} -->
@@ -43,8 +43,13 @@
 
           <!-- Instructions -->
           <h3>instructions</h3>
-          <p class="instruction">{{ meal["instructions"] }}</p>
-
+          <p class="instruction">
+            {% for letter in meal["instructions"].split("\n")%}
+                <span class="letter">{{ letter }}</span>
+                <br>
+            {% endfor %}
+          </p>
+         
           <!-- Video -->
           <a href="{{ meal["youtube"]}}">Youtube video</a>
         </div>

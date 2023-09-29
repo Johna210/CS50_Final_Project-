@@ -108,6 +108,13 @@ ul {
   flex-direction: column;
   padding: 10px;
 }
+.choices {
+  text-decoration: none;
+  color: #db5c69;
+}
+.choices:hover {
+  color: #8f2731;
+}
 
 .right {
   display: flex;
@@ -136,6 +143,9 @@ ul {
     width: 150px;
   }
   .search-space {
-    width: 75%;
+    width: 100%;
+    border-radius: 30px;
+    justify-content: center;
+    margin-right: 5px;
   }
 }

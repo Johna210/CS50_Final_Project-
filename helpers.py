@@ -120,13 +120,19 @@ def search_by_id(id):
                                 ] = ingredient[f"strMeasure{count}"]
                 count += 1
 
+        instructions = ""
+        for letter in ingredient["strInstructions"]:
+            if letter == "\n":
+                instructions += "\n"
+            else:
+                instructions += letter
         # return only the needed
         final = {
             "id": ingredient["idMeal"],
             "meal": ingredient["strMeal"],
             "category": ingredient["strCategory"],
             "origin": ingredient["strArea"],
-            "instructions": ingredient["strInstructions"],
+            "instructions": instructions,
             "img_source": ingredient["strMealThumb"],
             "tags": ingredient["strTags"],
             "youtube": ingredient["strYoutube"],
@@ -224,8 +230,30 @@ def countries():
         for country in info["meals"]:
             countries.append(country["strArea"])
 
-        print(countries)
+    else:
+        # Return an error message
+        return jsonify({'error': 'Failed to get data from MealDB API.'})
+
+
+def search_by_name(name):
+    url = f"https://www.themealdb.com/api/json/v1/1/search.php?s={name}"
+
+    # Contact api
+    response = requests.get(url)
+
+    meals = []
+
+    # response.raise_for_status()
+    if response.status_code == 200:
+        body = response.content
+        # A Dictionaary holding every needed info on the meal
+        info = json.loads(body)
+
+        for meal in info["meals"]:
+            meals.append(meal)
 
     else:
         # Return an error message
         return jsonify({'error': 'Failed to get data from MealDB API.'})
+
+    return meals

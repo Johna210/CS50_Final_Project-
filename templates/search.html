@@ -22,7 +22,6 @@
     ></script>
   </head>
   <body>
-    <form action="/search" method="post"></form>
     <div class="heading">
       <h3 class="logo">recipes</h3>
       <ul class="links">
@@ -47,67 +46,106 @@
       </ul>
     </div>
 
-    <div class="container-search">
-      <div class="left">
-        <div class="side-bar">
-          <p id="search-by">
-              Search by
-          </p>
-          <div style="min-height: 70px">
-              <div class="cards card card-body ">
-                <ul>
-                  <span>Categories</span>
-                  {% for category in categories %}
-                  <li>
-                    <a href="/search?category={{ category }}">{{ category }}</a>
-                  </li>
-                  {% endfor %}
-                </ul>
-              </div>
-              <div class="cards card card-body " >
-                <ul>
-                  <span>Origin</span>
-                  {% for origin in origins %}
-                  <li><a href="/search?origin={{ origin }}">{{ origin }}</a></li>
-                  {% endfor %}
-                </ul>
-              </div>
-          </div>
-        </div>
-      </div>
+    <form action="/search" method="POST">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
 
-      <div class="right">
-        <div class="search-bar">
-          <div class="search-space">
-            <input
-              type="text"
-              class="search-input"
-              placeholder="Search by ingredients"
-            />
-            <button type="submit" class="search-button">
-              <i
-                class="fa-solid fa-magnifying-glass fa-xl"
-                style="color: #dc3545"
-              ></i>
-            </button>
+      <div class="container-search">
+        <div class="left">
+          <div class="side-bar">
+            <p id="search-by">
+                Search by
+            </p>
+            <div style="min-height: 70px">
+                <div class="cards card card-body ">
+                  <ul>
+                    <span>Categories</span>
+                    {% for category in categories %}
+                    <li>
+                      <a  class="choices" href="/search?category={{ category }}">{{ category }}</a>
+                    </li>
+                    {% endfor %}
+                  </ul>
+                </div>
+                <div class="cards card card-body " >
+                  <ul>
+                    <span>Origin</span>
+                    {% for origin in origins %}
+                    <li ><a class="choices" href="/search?area={{ origin }}">{{ origin }}</a></li>
+                    {% endfor %}
+                  </ul>
+                </div>
+            </div>
           </div>
-         
         </div>
-        <div class="search-results">
-          {% for meal in meals %}
-          <div class="recipe">
-            <div class="images">
-              <img class ="images" src="{{ meal["strMealThumb"] }}" alt="{{
-              meal["meal"]}}" />
+  
+        <div class="right">
+          <div class="search-bar">
+            <div class="search-space">
+              <input
+                type="text"
+                class="search-input"
+                placeholder="Search Food"
+                name="food"
+              />
+              <button type="submit" class="search-button">
+                <i
+                  class="fa-solid fa-magnifying-glass fa-xl"
+                  style="color: #dc3545"
+                ></i>
+              </button>
             </div>
-            <div class="description">
-               <br>
-              <a href="/recipe?id={{ meal["idMeal"] }}"> {{ meal["strMeal"] }} </a>
-            </div>
+           
           </div>
-          {% endfor %}
+          <div class="search-results">
+            {% if meals %}
+              {% for meal in meals %}
+              <div class="recipe">
+                <div class="images">
+                  <img class ="images" src="{{ meal["strMealThumb"] }}" alt="{{
+                  meal["meal"]}}" />
+                </div>
+                <div class="description">
+                  <a href="/recipe?id={{ meal["idMeal"] }}"> {{ meal["strMeal"] }} </a>
+                  {% if meal["strInstructions"] %}
+                  <div class="details">
+                    {{ meal["strCategory"] }} <br>
+                  {{ meal["strTags"] }} <br>
+                  {{ meal["strArea"] }}
+                  </div>
+                  
+                  {% endif %}
+                </div>
+              </div>
+              {% endfor %}
+            {% endif %}
+          </div>
         </div>
       </div>
+    </form>
+    <div class="heading">
+      <h3 class="logo">recipes</h3>
+      <ul class="links">
+        <li>
+          <a class="link" href="/"
+            ><i class="fa-solid fa-house" style="color: #f7f8f8"></i> Home</a
+          >
+        </li>
+        
+        <li>
+          <a class="link" href="/search"
+            ><i class="fa-solid fa-magnifying-glass" style="color: #ffffff"></i>
+            Search</a
+          >
+        </li>
+        <li>
+          <a class="link" href="#"
+            ><i class="fa-solid fa-bookmark" style="color: #fcfcfc"></i>
+            Favourites</a
+          >
+        </li>
+      </ul>
     </div>
+
+    
   </body>
 </html>

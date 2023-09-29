@@ -9,13 +9,9 @@ from flask_session import Session
 from tempfile import mkdtemp
 from werkzeug.security import check_password_hash, generate_password_hash
 from datetime import date
-from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField
-from wtforms.validators import DataRequired, Length, Email, Regexp, EqualTo
-from wtforms import ValidationError
 from flask_wtf.csrf import CSRFProtect
 
-from helpers import login_required, RegistrationForm, generate, search_by_id, search_by_category, search_by_origin
+from helpers import login_required, RegistrationForm, generate, search_by_id, search_by_category, search_by_origin, search_by_name
 
 app = Flask(__name__)
 SECRET_KEY = 'safddsgayfdsgfhjgs'
@@ -60,7 +56,7 @@ def index():
     else:
         # Get six recipes for the homepage
         meals = []
-        for i in range(6):
+        for _ in range(6):
             meals.append(generate())
             meals_json = json.dumps(meals)
 
@@ -80,8 +76,7 @@ def login():
         # Take email from the form
         email = request.form.get("email")
         # Query the reuslts of the user from the database
-        row = db.execute("SELECT * FROM users WHERE email = ?", email
-                         )
+        row = db.execute("SELECT * FROM users WHERE email = ?", email)
 
         if len(row) > 0 and row[0]["email"] == email:
 
@@ -148,7 +143,7 @@ def register():
         # Redirect user to the login page
         return redirect("/login")
 
-    # Helper function to display errors in the terminal
+    """ Helper function to display errors in the terminal """
     # elif not form.validate():
     #     for field in form:
 
@@ -172,6 +167,8 @@ def recipe():
 @app.route("/search", methods=["GET", "POST"])
 @login_required
 def search():
+
+    # categories and origins found on the mealdb
     categories = ['Beef', 'Breakfast', 'Chicken', 'Dessert', 'Goat', 'Lamb',
                   'Miscellaneous', 'Pasta', 'Pork', 'Seafood', 'Side', 'Starter', 'Vegetarian', 'Vegan']
     origins = ['American', 'British', 'Canadian', 'Chinese', 'Croatian', 'Dutch', 'Egyptian', 'Filipino', 'French', 'Greek', 'Indian', 'Irish', 'Italian', 'Jamaican',
@@ -180,24 +177,27 @@ def search():
     meals = []
 
     if request.method == "POST":
-        pass
+        # If the user searched the reciepe by name
+        if request.form.get("food"):
+            # Get the name of food searched
+            try:
+                food_name = request.form.get("food")
+                meals = search_by_name(food_name)
+            except:
+                pass
 
+    # If either category or origin is clicked
     category = request.args.get("category")
-    origin = request.args.get("origin")
+    origin = request.args.get("area")
 
+    # If the user clicked any category
     if category:
         meals = search_by_category(category)
-
-    elif origins:
+    # Or if the user clicked on any country
+    if origin:
         meals = search_by_origin(origin)
 
     return render_template("search.html", categories=categories, origins=origins, meals=meals)
-
-
-@app.route("/categories")
-@login_required
-def categories():
-    return render_template("categories.html")
 
 
 if __name__ == '__main__':
