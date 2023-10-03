@@ -57,13 +57,17 @@ def index():
         # Get six recipes for the homepage
         meals = []
         for _ in range(6):
-            meals.append(generate())
+            new_meal = generate()
+            if new_meal in meals:
+                new_meal = generate()
+
+            meals.append(new_meal)
             meals_json = json.dumps(meals)
 
         db.execute(
             "INSERT INTO daily_recipes(date,recipes) VALUES(?,?)", today, meals_json)
 
-    return render_template("index.html", meals=meals, search_by_id=search_by_id)
+    return render_template("index.html", meals=meals)
 
 
 @app.route("/login", methods=["Get", "Post"])
@@ -78,11 +82,14 @@ def login():
         # Query the reuslts of the user from the database
         row = db.execute("SELECT * FROM users WHERE email = ?", email)
 
+        user_id = row[0]["id"]
+        print(user_id)
+        session["user_id"] = user_id
+
         if len(row) > 0 and row[0]["email"] == email:
 
             # First check if the password entered by the user is correct
             password = request.form.get("password")
-            print(password)
             if check_password_hash(row[0]["password"], password):
                 # Remember which user has logged in
                 session["user_id"] = row[0]["id"]
@@ -155,12 +162,41 @@ def register():
     return render_template("register.html", form=form, errors=errors)
 
 
-@app.route("/recipe")
+@app.route("/recipe", methods=["POST", "GET"])
 @login_required
 def recipe():
+
+    if request.method == "POST":
+        meals_json = json.dumps(session["meal_info"])
+
+        row = db.execute(
+            "SELECT * FROM favourites WHERE user_id=?;", session["user_id"])
+
+        meal = json.loads(row[0]["meal_info"])
+        print(meal["id"])
+
+        if row:
+            if session["meal_info"]["id"] == meal["id"]:
+                pass
+
+            else:
+                db.execute(
+                    "INSERT INTO favourites(user_id,meal_info) VALUES(?,?)", session["user_id"], meals_json)
+
+        else:
+            db.execute(
+                "INSERT INTO favourites(user_id,meal_info) VALUES(?,?)", session["user_id"], meals_json)
+
+        print(meals_json)
+
+        return redirect("/favourites")
     # get the meal id
     meal_id = request.args.get("id")
     meal = search_by_id(meal_id)
+
+    if meal:
+        session["meal_info"] = meal
+        print(session["meal_info"]["id"])
     return render_template("recipe.html", meal=meal)
 
 
@@ -198,6 +234,23 @@ def search():
         meals = search_by_origin(origin)
 
     return render_template("search.html", categories=categories, origins=origins, meals=meals)
+
+
+@app.route("/favourites", methods=["GET", "POST"])
+@login_required
+def favourites():
+    """First fetch the data from the db by using the user_id."""
+    user_id = session["user_id"]
+    row = db.execute("SELECT * FROM favourites WHERE user_id = ?", user_id)
+
+    favourites = []
+
+    for i in row:
+        print(i["meal_info"])
+        meal = json.loads(i["meal_info"])
+        favourites.append(meal)
+
+    return render_template("favourites.html", favourites=favourites)
 
 
 if __name__ == '__main__':

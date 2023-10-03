@@ -167,3 +167,22 @@ ul {
     gap: 10px;
   }
 }
+
+/* Favourites page */
+
+.favourites {
+  display: flex;
+  margin: 20px 30px;
+  gap: 20px;
+}
+.favourite {
+  width: 350px;
+  height: 350px;
+  border: #dc3545 solid;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.details {
+  padding-left: 5px;
+}
