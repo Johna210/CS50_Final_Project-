@@ -1,19 +1,27 @@
 {% extends "layout.html" %} {% block title %} Homepage {% endblock %} {% block
 main %}
 
-<form action="/favourites">
+<form action="/favourites", method="post">
   <div class="favourites">
     {% for meal in favourites %}
     <div class="favourite">
       <div class="images">
-        <img src="{{ meal["img_source"] }}" class="images" />
+        <img src="{{ meal["img"] }}" class="images" />
       </div>
-      <div class="details">
-        {{ meal["meal"] }} <br />
-        {{ meal["category"] }}<br />
-        {{ meal["origin"] }}
+
+      <div class="bottom">
+        <div class="details">
+          {{ meal["meal"] }} <br />
+          {{ meal["category"] }}<br />
+          {{ meal["origin"] }}
+        </div>
+
+        <div class="delete">
+          <a href="/favourites?id={{ meal["id"] }}"><i class="fa-solid fa-trash fa-lg"></i> </a>
+        </div>
       </div>
     </div>
+
     {% endfor %}
   </div>
 </form>

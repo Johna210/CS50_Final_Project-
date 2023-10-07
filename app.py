@@ -146,7 +146,7 @@ def register():
             first_name, last_name, user_name, email, hased_pass)
 
         # After adding the user in the database log the user in
-        session["user_id"] = row[0]["id"]
+        # session["user_id"] = row[0]["id"]
         # Redirect user to the login page
         return redirect("/login")
 
@@ -167,27 +167,34 @@ def register():
 def recipe():
 
     if request.method == "POST":
-        meals_json = json.dumps(session["meal_info"])
+
+        # Format the data that will be saved in the data base
+        meal = {
+            "id": session["meal_info"]["id"],
+            "meal": session["meal_info"]["meal"],
+            "category": session["meal_info"]["category"],
+            "origin": session["meal_info"]["origin"],
+            "img": session["meal_info"]["img_source"]
+        }
+
+        # To save in the databse with the format
+        meals_json = json.dumps(meal)
 
         row = db.execute(
             "SELECT * FROM favourites WHERE user_id=?;", session["user_id"])
 
-        meal = json.loads(row[0]["meal_info"])
-        print(meal["id"])
-
+        # Check to see if the user have any favourites and to check if the recipe is already saved.
         if row:
-            if session["meal_info"]["id"] == meal["id"]:
+            if row[0]["meal_id"] == meal["id"]:
                 pass
 
             else:
                 db.execute(
-                    "INSERT INTO favourites(user_id,meal_info) VALUES(?,?)", session["user_id"], meals_json)
+                    "INSERT INTO favourites(user_id,meal_info,meal_id) VALUES(?,?,?)", session["user_id"], meals_json, meal["id"])
 
         else:
             db.execute(
-                "INSERT INTO favourites(user_id,meal_info) VALUES(?,?)", session["user_id"], meals_json)
-
-        print(meals_json)
+                "INSERT INTO favourites(user_id,meal_info,meal_id) VALUES(?,?,?)", session["user_id"], meals_json, meal["id"])
 
         return redirect("/favourites")
     # get the meal id
@@ -196,7 +203,6 @@ def recipe():
 
     if meal:
         session["meal_info"] = meal
-        print(session["meal_info"]["id"])
     return render_template("recipe.html", meal=meal)
 
 
@@ -240,15 +246,26 @@ def search():
 @login_required
 def favourites():
     """First fetch the data from the db by using the user_id."""
+
     user_id = session["user_id"]
     row = db.execute("SELECT * FROM favourites WHERE user_id = ?", user_id)
 
     favourites = []
 
     for i in row:
-        print(i["meal_info"])
         meal = json.loads(i["meal_info"])
         favourites.append(meal)
+
+    meal_id = request.args.get("id")
+
+    if meal_id:
+        # If there is a delete button entered delete it from the list and from the database.
+        for i in favourites:
+            if i["id"] == meal_id:
+                favourites.remove(i)
+
+            db.execute("DELETE FROM favourites WHERE user_id=? AND meal_id=?;",
+                       session["user_id"], meal_id)
 
     return render_template("favourites.html", favourites=favourites)
 

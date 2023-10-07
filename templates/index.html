@@ -1,7 +1,7 @@
 {% extends "layout.html" %} {% block title %} Homepage {% endblock %} {% block
 main %}
 <div class="container">
-  <h2 class="title">Todays recipe's</h2>
+  <h2 class="title">Todays recipes</h2>
   <div class="recipes">
     {% for meal in meals %}
 
@@ -11,11 +11,11 @@ main %}
         meal["meal"]}}" />
       </div>
       <div class="description">
-        <a href="/recipe?id={{ meal["id"] }}"> {{ meal["meal"] }} </a>
+        <a class="meal-name" href="/recipe?id={{ meal["id"] }}"> {{ meal["meal"] }} </a>
         <br />
         {{ meal["category"] }} <br />
         {{ meal["origin"] }} <br>
-        <a href="{{ meal["youtube"] }}"><i class="fa-brands fa-youtube" style="color: #dc3545;"></i> Watch video</a>
+        <a class="video" href="{{ meal["youtube"] }}"><i class="fa-brands fa-youtube" style="color: #dc3545;"></i> Watch video</a>
       </div>
     </div>
     {% endfor %}

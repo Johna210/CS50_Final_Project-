@@ -2,6 +2,8 @@ import os
 import requests
 import urllib.parse
 import json
+from cs50 import SQL
+
 
 from flask import redirect, render_template, request, session, jsonify
 from functools import wraps
