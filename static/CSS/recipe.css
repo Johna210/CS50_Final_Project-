@@ -10,11 +10,13 @@ body {
   justify-content: space-between;
   align-items: center;
   color: #fff;
+  height: 50px;
 }
 
 .links {
   display: flex;
   gap: 20px;
+  font-family: "Source Sans 3", sans-serif;
 }
 
 ul {
@@ -24,6 +26,12 @@ ul {
 .link {
   text-decoration: none;
   color: #fff;
+}
+
+.logo {
+  font-family: "Ubuntu", sans-serif;
+  font-size: x-large;
+  font-weight: bolder;
 }
 
 /* recipe content */
@@ -49,10 +57,101 @@ ul {
   /* background-color: red; */
 }
 
+/* Title */
+.recipe-title {
+  font-family: "Aclonica", sans-serif;
+  font-size: xx-large;
+  font-weight: 600;
+  margin: 10px;
+}
+
+.ingredient-title {
+  font-family: "Aclonica", sans-serif;
+  font-size: x-large;
+}
+
+.instruction-title {
+  font-family: "Aclonica", sans-serif;
+  font-size: x-large;
+}
+
+/* Ingredients */
+.ingredients {
+  line-height: 2;
+  list-style: none;
+  font-family: "Source Sans 3", sans-serif;
+}
+
+.recipe-info li::before {
+  content: "\2022";
+  color: #cb4652; /* Change the color */
+  font-weight: bold; /* If you want it to be bold */
+  display: inline-block; /* Needed to add space between the bullet and the text */
+  width: 1em; /* Also needed for space (tweak if needed) */
+  margin-left: -1em; /* Also needed for space (tweak if needed) */
+}
+
 /* Instructions */
 .instruction {
   padding: 10px;
+  font-family: "Source Sans 3", sans-serif;
+  line-height: 1.5;
+  font-weight: 500;
 }
+
+/* Buttons */
+.vid {
+  margin-bottom: 25px;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.youtube a {
+  color: #fff;
+  text-decoration: none;
+  font-family: "Ubuntu", sans-serif;
+  font-weight: 700;
+}
+
+.youtube {
+  width: 150px;
+  height: 40px;
+  background-color: #dc3545;
+  border: none;
+  border-radius: 2px;
+}
+
+#favourites {
+  width: 150px;
+  height: 40px;
+  background-color: #fff;
+  border: 2px solid #dc3545;
+  border-radius: 2px;
+  font-family: "Ubuntu", sans-serif;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+/* Hover */
+.youtube:hover {
+  background-color: #ab303b;
+}
+
+.icon {
+  color: #dc3545;
+}
+
+#favourites:hover {
+  border: none;
+  background-color: #dc3545;
+  color: #fff;
+}
+
+#favourites:hover i {
+  color: #fff;
+}
+
 @media screen and (max-width: 600px) {
   .recipe-info {
     width: 80%;

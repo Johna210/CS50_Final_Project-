@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="/static/CSS/recipe.css" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Aclonica&family=Pacifico&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Source+Sans+3&family=Ubuntu:wght@700&display=swap"
       rel="stylesheet"
     />
     <script
@@ -23,7 +23,6 @@
   </head>
   <body>
     <div class="header">
-      <!-- {% if session["user_id"] %} -->
       <div class="heading">
         <h3 class="logo">recipes</h3>
         <ul class="links">
@@ -32,29 +31,28 @@
           <li><a class="link" href="/favourites"><i class="fa-solid fa-bookmark" style="color: #fcfcfc"></i> Favourites</a></li>
         </ul>
       </div>
-      <!-- {% else %} -->
-      <!-- <a href="/login"></a>
-      {% endif %} {% block main %}{% endblock %} -->
+      
     </div>
     <form action="/recipe" , method="POST">
       <input type="hidden" name="csrf_token" value="{{ csrf_token() }}" />
 
       <div class="container">
         <div class="recipe-info">
-          <img class="recipe-image" src="{{ meal["img_source"] }}" alt="{{
-          meal["meal"]}}">
           <div class="recipe-title">{{ meal["meal"] }}</div>
 
+          <img class="recipe-image" src="{{ meal["img_source"] }}" alt="{{
+          meal["meal"]}}">
+
           <!-- Ingredients -->
-          <h3>Ingredients</h3>
-          <ul>
+          <h3 class="ingredient-title">Ingredients</h3>
+          <ul class="ingredients">
             {% for ingredient,amount in meal["ingredients"].items() %}
             <li>{{ ingredient }} : {{ amount }}</li>
             {% endfor %}
           </ul>
 
           <!-- Instructions -->
-          <h3>instructions</h3>
+          <h3 class="instruction-title">instructions</h3>
           <p class="instruction">
             {% for letter in meal["instructions"].split("\n")%}
                 <span class="letter">{{ letter }}</span>
@@ -64,9 +62,9 @@
          
           <!-- Video -->
           <div class="vid">
-          <a href="{{ meal["youtube"]}}">Youtube video</a>
+          <button class="youtube" ><a href="{{ meal["youtube"]}}"><i class="fa-brands fa-youtube" style="color: #fff;"></i> Youtube video</a></button>
           <button id="favourites" type="submit" class="btn btn-outline-danger submit">
-            Add to favourites
+            <i class="fa-solid fa-bookmark icon"></i> Add to favourites
           </button>
           </div>
         </div>

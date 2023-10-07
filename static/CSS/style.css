@@ -18,6 +18,7 @@ body {
 .links {
   display: flex;
   gap: 20px;
+  font-family: "Source Sans 3", sans-serif;
 }
 
 ul {
