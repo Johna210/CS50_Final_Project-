@@ -6,17 +6,22 @@ main %}
     {% for meal in meals %}
 
     <div class="recipe">
-      <div class="images">
-        <img class ="images" src="{{ meal["img_source"] }}" alt="{{
-        meal["meal"]}}" />
-      </div>
-      <div class="description">
-        <a class="meal-name" href="/recipe?id={{ meal["id"] }}"> {{ meal["meal"] }} </a>
-        <br />
-        {{ meal["category"] }} <br />
-        {{ meal["origin"] }} <br>
-        <a class="video" href="{{ meal["youtube"] }}"><i class="fa-brands fa-youtube" style="color: #dc3545;"></i> Watch video</a>
-      </div>
+      <a  href="/recipe?id={{ meal["id"] }}">
+        <div class="images">
+          <img class ="images" src="{{ meal["img_source"] }}" alt="{{
+          meal["meal"]}}" />
+        </div>
+      </a>
+      
+        <div class="description">
+          <a class="meal-name"  href="/recipe?id={{ meal["id"] }}"> {{ meal["meal"] }} </a>
+          <br />
+          {{ meal["category"] }} <br />
+          {{ meal["origin"] }} <br>
+          <a class="video" href="{{ meal["youtube"] }}"><i class="fa-brands fa-youtube" style="color: #dc3545;"></i> Watch video</a>
+        </div>  
+
+      
     </div>
     {% endfor %}
      

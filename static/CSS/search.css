@@ -11,11 +11,19 @@ body {
   justify-content: space-between;
   align-items: center;
   color: #fff;
+  height: 50px;
 }
 
 .links {
   display: flex;
   gap: 20px;
+  font-family: "Source Sans 3", sans-serif;
+}
+
+.logo {
+  font-family: "Ubuntu", sans-serif;
+  font-size: x-large;
+  font-weight: bolder;
 }
 
 ul {
@@ -91,7 +99,6 @@ ul {
 .recipe {
   width: 354px;
   height: 350px;
-  border: #dc3545 solid;
 }
 
 .cards {
@@ -101,6 +108,21 @@ ul {
 .images {
   height: 250px;
   width: 350px;
+}
+
+.meal-name {
+  font-family: "Aclonica", sans-serif;
+  color: black;
+  text-decoration: none;
+}
+
+.meal-name:hover {
+  text-decoration: underline;
+  text-decoration-color: #dc3545;
+}
+
+.description {
+  margin: 10px;
 }
 /* Container */
 .container-search {
@@ -129,6 +151,10 @@ ul {
 /* .lists {
   display: none;
 } */
+
+.type {
+  font-family: "Source Sans 3", sans-serif;
+}
 
 .choices {
   text-decoration: none;

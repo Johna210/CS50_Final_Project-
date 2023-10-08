@@ -5,19 +5,22 @@ main %}
   <div class="favourites">
     {% for meal in favourites %}
     <div class="favourite">
-      <div class="images">
-        <img src="{{ meal["img"] }}" class="images" />
-      </div>
+      <a href="/recipe?id={{ meal["id"] }}">
+        <div class="images">
+          <img src="{{ meal["img"] }}" class="images" />
+        </div>
+      </a>
+      
 
       <div class="bottom">
         <div class="details">
-          {{ meal["meal"] }} <br />
+          <a class="meal-name"  href="/recipe?id={{ meal["id"] }}"> {{ meal["meal"] }} </a> <br />
           {{ meal["category"] }}<br />
           {{ meal["origin"] }}
         </div>
 
         <div class="delete">
-          <a href="/favourites?id={{ meal["id"] }}"><i class="fa-solid fa-trash fa-lg"></i> </a>
+          <a href="/favourites?id={{ meal["id"] }}"><i class="fa-solid fa-trash fa-lg trash"></i> </a>
         </div>
       </div>
     </div>

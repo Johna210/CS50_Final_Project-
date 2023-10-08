@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="/static/CSS/search.css" />
     
     <link
-      href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Aclonica&family=Pacifico&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Source+Sans+3&family=Ubuntu:wght@700&display=swap"
       rel="stylesheet"
     />
     
@@ -51,7 +51,7 @@
             <div style="min-height: 70px">
                 <div class="cards">
                   <ul>
-                    <span>Categories</span>
+                    <span class="type">Categories</span>
                     {% for category in categories %}
                     <li>
                       <a  class="choices" href="/search?category={{ category }}">{{ category }}</a>
@@ -61,7 +61,7 @@
                 </div>
                 <div class="cards" >
                   <ul>
-                    <span>Origin</span>
+                    <span class="type">Origin</span>
                     {% for origin in origins %}
                     <li ><a class="choices" href="/search?area={{ origin }}">{{ origin }}</a></li>
                     {% endfor %}
@@ -93,20 +93,15 @@
             {% if meals %}
               {% for meal in meals %}
               <div class="recipe">
-                <div class="images">
-                  <img class ="images" src="{{ meal["strMealThumb"] }}" alt="{{
-                  meal["meal"]}}" />
-                </div>
-                <div class="description">
-                  <a href="/recipe?id={{ meal["idMeal"] }}"> {{ meal["strMeal"] }} </a>
-                  {% if meal["strInstructions"] %}
-                  <div class="details">
-                    {{ meal["strCategory"] }} <br>
-                  {{ meal["strTags"] }} <br>
-                  {{ meal["strArea"] }}
+                <a href="/recipe?id={{ meal["idMeal"] }}">
+                  <div class="images">
+                    <img class ="images" src="{{ meal["strMealThumb"] }}" alt="{{
+                    meal["meal"]}}" />
                   </div>
-                  
-                  {% endif %}
+                </a>
+                
+                <div class="description">
+                  <a class="meal-name" href="/recipe?id={{ meal["idMeal"] }}"> {{ meal["strMeal"] }} </a>
                 </div>
               </div>
               {% endfor %}

@@ -218,16 +218,21 @@ ul {
 .favourite {
   width: 350px;
   height: 350px;
-  border: #dc3545 solid;
   display: flex;
   flex-direction: column;
   gap: 5px;
 }
 .details {
   padding-left: 5px;
+  font-family: "Source Sans 3", sans-serif;
+  color: #595959;
 }
 
 .bottom {
   display: flex;
   justify-content: space-around;
+}
+
+.trash {
+  color: #404040;
 }
