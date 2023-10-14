@@ -205,6 +205,10 @@ ul {
     margin-bottom: 1rem;
     gap: 10px;
   }
+  /* heading */
+  .mobile {
+    display: none;
+  }
 }
 
 /* Favourites page */

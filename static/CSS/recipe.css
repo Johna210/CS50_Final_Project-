@@ -154,7 +154,7 @@ ul {
 
 @media screen and (max-width: 600px) {
   .recipe-info {
-    width: 80%;
+    width: 100%;
     background-color: white;
     display: flex;
     flex-direction: column;
@@ -168,5 +168,8 @@ ul {
   }
   .magnifying-glass {
     size: 40%;
+  }
+  .mobile {
+    display: none;
   }
 }

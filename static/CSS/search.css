@@ -222,4 +222,7 @@ ul {
   .side-bar:hover .cards {
     display: block;
   }
+  .mobile {
+    display: none;
+  }
 }
