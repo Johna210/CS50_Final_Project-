@@ -82,11 +82,10 @@ def login():
         # Query the reuslts of the user from the database
         row = db.execute("SELECT * FROM users WHERE email = ?", email)
 
-        user_id = row[0]["id"]
-        print(user_id)
-        session["user_id"] = user_id
-
         if len(row) > 0 and row[0]["email"] == email:
+
+            user_id = row[0]["id"]
+            session["user_id"] = user_id
 
             # First check if the password entered by the user is correct
             password = request.form.get("password")
